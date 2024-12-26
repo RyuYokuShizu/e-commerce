@@ -54,10 +54,8 @@ class ProductController extends Controller
             foreach($request->category as $category_id){
                 $categories[] = [ 'category_id' => $category_id];
             }
-            $this->product->categoryProduct()->createMany($categories);
+            $this->product->categoryProducts()->createMany($categories);
         }
-
-
 
         return redirect()->route('home');
        

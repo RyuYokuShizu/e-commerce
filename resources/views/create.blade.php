@@ -63,7 +63,7 @@
             <input type="number" name="stock" id="stock" class="form-control">
         </div>
         <div>
-            <label for="fee" class="form-label">stock</label>
+            <label for="fee" class="form-label">Price</label>
             <input type="number" name="fee" id="fee" class="form-control">
         </div>
         
