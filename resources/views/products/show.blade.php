@@ -31,7 +31,7 @@
         </nav>
         <div class="row">
           <div class="col-6">
-            <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:100%; height:100%; object-fit:cover;" alt="{{$product->name}}">
+            <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:400px; height:300px; object-fit:cover;" alt="{{$product->name}}">
           </div>
           <div class="col-6">
             <p class="text-secondary">Kredo Coffee</p>
@@ -53,7 +53,7 @@
           <h2>Introduction</h2>
           <div class="bg-light">
           <h3>Features</h3>
-          <p class="fs-4">
+          <p class="fs-4" style="word-wrap: break-word; word-break: break-all;">
             {{ $product->description }}
           </p>
           </div>
