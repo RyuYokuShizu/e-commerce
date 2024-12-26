@@ -5,7 +5,7 @@
 @section('content')
   <div class="row">
     <h1 class="h3 py-2 p-0">Coffee Beans</h1>
-    {{-- <img src="{{asset('storage/Colorful Cycle Chart Instagram Post.png')}}" alt="" style="width:60vh"> --}}
+    <img src="{{asset('storage/Colorful Cycle Chart Instagram Post.png')}}" alt="" style="width:60vh">
 
     <div class="row justify-content-between">
         @foreach($all_products as $product)
