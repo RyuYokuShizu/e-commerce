@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Categories;
 use App\Models\Carts;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -16,11 +19,13 @@ class ProductController extends Controller
     private  $category;
     const LOCAL_STORAGE_FOLDER = 'public/image'; 
     private $cart;
+    public $productService;
 
-    public function __construct(Product $product_model, Categories $category_model, Carts $cart_model) {
+    public function __construct(Product $product_model, Categories $category_model, Carts $cart_model, ProductService $productService) {
         $this->product = $product_model;
         $this->category = $category_model;
         $this->cart = $cart_model;
+        $this->productService = $productService;
     }
 
     public function create(){
@@ -31,55 +36,30 @@ class ProductController extends Controller
     }
 
     //商品の保存`---->>>
-    public function store(Request $request){
-        $request->validate([
-            'name' => 'required|min:1|max:50',
-            'description'  => 'required|min:1',
-           'image' => 'required|mimes:jpeg,jpg,png,gif|max:1048',
-           'stock' => 'required',
-           "fee" => 'required'
-        ]);
-
+    public function store(StoreProductRequest $request){
+        // StoreProductRequest already validated requests
 
         $this->product->name  =  $request->name;
         $this->product->description = $request->description;
-        $this->product->image = $this->saveImage($request->image);
+        $this->product->image = $this->productService->saveImage($request->image);
         $this->product->stock = $request->stock;
         $this->product->fee = $request->fee;
         $this->product->save();
 
         // もしcategoryが選択されていれば、
         if($request->category){
-            $categories = [];
-            foreach($request->category as $category_id){
-                $categories[] = [ 'category_id' => $category_id];
-            }
-            $this->product->categoryProducts()->createMany($categories);
+           $this->productService->saveCategories($this->product, $request->category);
         }
 
         return redirect()->route('home');
-       
-
-
     }
 
-    public function  saveImage($image){
-         $image_name = time().'.'.$image->extension();
-         $image->storeAs(self::LOCAL_STORAGE_FOLDER , $image_name);
-
-         return $image_name;
-    }
+   
 //<<<--------ここまで商品の保存
      
                                                             
-    public function  update(Request $request,$id){
-        $request->validate([
-            'name' => 'required|min:1|max:50',
-            'description'  => 'required|min:1',
-           'image' => 'mimes:jpeg,jpg,png,gif|max:1048',
-           'stock' => 'required',
-           "fee" => 'required'
-        ]);
+    public function  update(UpdateProductRequest $request, $id){
+        // UpdateProductRequest already validated requests
 
         $product = $this->product->findOrFail($id);
         $product->name  =  $request->name;
@@ -89,37 +69,26 @@ class ProductController extends Controller
         $product->save();
 
         // もしcategoryが選択されていれば、
+        // categoryを保存する
         if($request->category){
-            $categories = [];
-            foreach($request->category as $category_id){
-                $categories[] = [ 'category_id' => $category_id];
-            }
-            $this->product->categoryProduct()->createMany($categories);
+            $this->productService->saveCategories($this->product, $request->category);
         }
 
+        // 新しいイメージが投稿されたら、元の画像を破壊し新しくする
         if($request->image){
-            $this->deleteImage($request->image);
+            $this->productService->deleteImage($request->image);
 
-            $product->image = $this->saveImage($request->image);
+            $product->image = $this->productService->saveImage($request->image);
         }
-
-
-
         // return redirect()->route('');
     }
 
 
-    public function deleteImage($image){
-        $image_path = self::LOCAL_STORAGE_FOLDER.$image;
-        if(storage::disk('public')->exists($image_path)){
-            storage::disk('public')->delete($image_path);
-        }
-
-    }
+   
 
     public function delete($id){
         $product = $this->product->findOrFail($id);
-        $this->deleteImage($product->image);
+        $this->productService->deleteImage($product->image);
         $product->destroy();
 
         return redirect()->route('');
@@ -142,27 +111,50 @@ class ProductController extends Controller
         ]);
 
         $product=$this->product->findOrFail($id);
+        // 現在の在庫を取得
         $amount = $product->stock;
+        // 購入された分を引き算
         $new_amount = $amount - $request->amount;
 
-        $product->stock =  $new_amount;
+        $product->stock = $new_amount;
         $product->save();
 
-        $this->cart->user_id= Auth::user()->id;
+        $this->cart->user_id = Auth::user()->id;
         $this->cart->product_id = $id;
         $this->cart->save();
 
         return redirect()->back();
-
-        
     }
 
 
+    public function addCart(Request $request, $id) {
+        $request->validate([
+            'amount' => 'required|min:1',
+        ]);
 
+        // カスタマーの注文個数
+        $requestedAmount = $request->amount;
+        // 商品名
+        $product = $this->findOrFail($id);
 
-    
+        // sessionの中を見てcartをとってくる、なかったら空の配列
+        $cart = session()->get('cart', []);
 
+        if(isset($cart[$id])) {
+        // cartの中にとってきたidと同じものがすでにあったらそこに足し算する
+            $cart['quantity'] += $requestedAmount;
+        } else {
+        // cartの中に同じidが見つからなかったら、idをkeyにした配列を作成
+            $cart[$id] = [
+                'name'        => $product->name,
+                'description' => $product->description,
+                'image'       => $product->image,
+                'quantity'    => $requestedAmount,
+            ];
+        }
+        //sessionのcartという場所にcart(いろんなidの配列が格納されてる大きな配列の箱）がセットされる
+        session()->put('cart', $cart);
 
-
-    
+        return redirect()->route('cart.page');
+    }
 }
