@@ -31,12 +31,12 @@
         </nav>
         <div class="row">
           <div class="col-6">
-            <img src="{{ asset('images_Yotaro0819/test_Yotaro0819.webp')}}" alt="#" style="height: 450px;">
+            <img src="{{asset('storage/public/image/'. $product->image)}}" class="d-flex card-img-top rounded-0 w-75 mx-auto" style="height:20rem; object-fit:cover;" alt="{{$product->name}}">
           </div>
           <div class="col-6">
             <p class="text-secondary">Kredo Coffee</p>
-            <p class="fs-3 mb-4">This space is for Product Name</p>
-            <p class="fs-3 mb-4">$1000.00</p>
+            <p class="fs-3 mb-4">{{ $product->name }}</p>
+            <p class="fs-3 mb-4">{{ $product->fee }} $</p>
             <form action="#" method="post">
               @csrf
               <div class="form-group d-flex align-items-center">
@@ -53,10 +53,8 @@
           <h2>Introduction</h2>
           <div class="bg-light">
           <h3>Features</h3>
-          <p class="fs-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis dolorem iusto expedita pariatur molestiae et, mollitia sint molestias. Fugiat officiis incidunt vero necessitatibus odit. Saepe tempore obcaecati delectus illo tenetur.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam quisquam illo praesentium. Molestiae laudantium eligendi placeat, facilis voluptate aspernatur inventore ipsum adipisci ullam iusto non vel autem voluptates tempore pariatur!
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias dolores quo cum sequi corporis reprehenderit, voluptatum possimus sapiente facilis, maiores numquam quidem explicabo? Ex neque earum vero, commodi consectetur et.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum vitae repellendus sunt mollitia beatae veritatis a deleniti commodi quasi adipisci. Dignissimos, odit! Aut animi aperiam pariatur, porro quisquam et nobis!
+          <p class="fs-4" style="word-wrap: break-word; word-break: break-all;">
+            {{ $product->description }}
           </p>
           </div>
         </div>

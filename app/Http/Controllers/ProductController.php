@@ -57,8 +57,6 @@ class ProductController extends Controller
             $this->product->categoryProducts()->createMany($categories);
         }
 
-
-
         return redirect()->route('home');
        
 
@@ -128,9 +126,9 @@ class ProductController extends Controller
     }
 
     public function edit($id){
-        $product_id = $this->product->findOrFail($id);
+        $product = $this->product->findOrFail($id);
         $all_categories = $this->category->all();
-        return view('edit')->with('product_id', $product_id)->with('all_categories',$all_categories);
+        return view('edit')->with('product', $product)->with('all_categories',$all_categories);
     }
 
     public function purchase($id){
