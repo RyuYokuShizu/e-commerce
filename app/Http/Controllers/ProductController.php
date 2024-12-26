@@ -139,26 +139,24 @@ class ProductController extends Controller
         return view('purchase')->with('product', $product);
     }
 
-    public function buy(Request $request, $id){
-        $request->validate([
-            'amount' => 'required|min:1'
-        ]);
+    // public function buy(Request $request, $id){
+    //     $request->validate([
+    //         'amount' => 'required|min:1'
+    //     ]);
 
-        $product=$this->product->findOrFail($id);
-        $amount = $product->stock;
-        $new_amount = $amount - $request->amount;
+    //     $product=$this->product->findOrFail($id);
+    //     $amount = $product->stock;
+    //     $new_amount = $amount - $request->amount;
 
-        $product->stock =  $new_amount;
-        $product->save();
+    //     $product->stock =  $new_amount;
+    //     $product->save();
 
-        $this->cart->user_id= Auth::user()->id;
-        $this->cart->product_id = $id;
-        $this->cart->save();
+    //     $this->cart->user_id= Auth::user()->id;
+    //     $this->cart->product_id = $id;
+    //     $this->cart->save();
 
-        return redirect()->back();
-
-        
-    }
+    //     return redirect()->back();
+    // }
 
 
 
