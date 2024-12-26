@@ -54,7 +54,7 @@ class ProductController extends Controller
             foreach($request->category as $category_id){
                 $categories[] = [ 'category_id' => $category_id];
             }
-            $this->product->categoryProduct()->createMany($categories);
+            $this->product->categoryProducts()->createMany($categories);
         }
 
 
@@ -92,11 +92,12 @@ class ProductController extends Controller
 
         // もしcategoryが選択されていれば、
         if($request->category){
+            $product->categoryProducts()->delete();
             $categories = [];
             foreach($request->category as $category_id){
                 $categories[] = [ 'category_id' => $category_id];
             }
-            $this->product->categoryProduct()->createMany($categories);
+            $product->categoryProducts()->createMany($categories);
         }
 
         if($request->image){
