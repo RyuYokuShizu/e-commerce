@@ -5,17 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
+                @foreach ($all_products as $product)
+                <a href="{{ route('product.edit', $product->id)}}">{{ $product->name}}</a>
+                <a href="{{ route('product.purchase',$product->id)}}">purchase</a>
+                @endforeach
             </div>
         </div>
     </div>

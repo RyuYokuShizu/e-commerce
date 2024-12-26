@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
+
 class User extends Authenticatable
 {
+
+    const USER_ROLE = 1;
+    const ADMIN_ROLE = 2;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -44,5 +49,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    
+    public function products(){
+        return  $this->hasMany(Product::class);
+    }
+    
+    public function carts(){
+        return $this->hasMany(Carts::class);
+    }
+
+    public function senderMessage(){
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function receiverMessage(){
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }
