@@ -3,8 +3,13 @@
 @section('title', 'Create')
 
 @section('content')
-
-<div class="row justify-content-center">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    .edit {
+        font-family: "Montserrat", serif;
+    }
+</style>
+<div class="row justify-content-center edit">
     <div class="col-9">
         <form action="{{ route('product.update',$product->id)}}" method="post" enctype="multipart/form-data">
             @csrf

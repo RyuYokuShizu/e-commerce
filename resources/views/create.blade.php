@@ -3,8 +3,14 @@
 @section('title', 'Create')
 
 @section('content')
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+    .create {
+        font-family: "Montserrat", serif;
+    }
+</style>
 
-<div class="row justify-content-center">
+<div class="row justify-content-center create">
     <div class="col-9">
         <form action="{{ route('product.store')}}" method="post" enctype="multipart/form-data">
             @csrf
