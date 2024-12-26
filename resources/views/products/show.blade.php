@@ -31,7 +31,7 @@
         </nav>
         <div class="row">
           <div class="col-6">
-            <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:400px; height:300px; object-fit:cover;" alt="{{$product->name}}">
+            <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:20rem; height:10rem; object-fit:cover;" alt="{{$product->name}}">
           </div>
           <div class="col-6">
             <p class="text-secondary">Kredo Coffee</p>
