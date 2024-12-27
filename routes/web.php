@@ -26,6 +26,7 @@ Route::group(['middleware' => 'auth'], function(){
     #cart
     Route::group(['prefix' => 'cart', 'as' => 'cart.'], function(){
         Route::post('/{id}/buy', [CartController::class, 'buy'])->name('buy');
+        Route::get('/create', [CartController::class, 'create'])->name('create');
     });
     
     #History
