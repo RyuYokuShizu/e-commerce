@@ -90,11 +90,12 @@ class ProductController extends Controller
 
         // もしcategoryが選択されていれば、
         if($request->category){
+            $product->categoryProducts()->delete();
             $categories = [];
             foreach($request->category as $category_id){
                 $categories[] = [ 'category_id' => $category_id];
             }
-            $this->product->categoryProduct()->createMany($categories);
+            $product->categoryProducts()->createMany($categories);
         }
 
         if($request->image){
@@ -136,26 +137,24 @@ class ProductController extends Controller
         return view('products.show')->with('product', $product);
     }
 
-    public function buy(Request $request, $id){
-        $request->validate([
-            'amount' => 'required|min:1'
-        ]);
+    // public function buy(Request $request, $id){
+    //     $request->validate([
+    //         'amount' => 'required|min:1'
+    //     ]);
 
-        $product=$this->product->findOrFail($id);
-        $amount = $product->stock;
-        $new_amount = $amount - $request->amount;
+    //     $product=$this->product->findOrFail($id);
+    //     $amount = $product->stock;
+    //     $new_amount = $amount - $request->amount;
 
-        $product->stock =  $new_amount;
-        $product->save();
+    //     $product->stock =  $new_amount;
+    //     $product->save();
 
-        $this->cart->user_id= Auth::user()->id;
-        $this->cart->product_id = $id;
-        $this->cart->save();
+    //     $this->cart->user_id= Auth::user()->id;
+    //     $this->cart->product_id = $id;
+    //     $this->cart->save();
 
-        return redirect()->back();
-
-        
-    }
+    //     return redirect()->back();
+    // }
 
 
 

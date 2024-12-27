@@ -19,6 +19,9 @@
 
                 <a href="{{ route('product.purchase', $product->id) }}" class="btn btn-outline-secondary w-100 btn-sm ">SELECT OPTIONS</a> 
             </div>
+
+            <div>
+            </div>
         </div>
         @endforeach
     </div>
