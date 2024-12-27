@@ -9,6 +9,7 @@
         {{-- Product review --}}
         <div class="col-9">
             <h3 class="fw-bold">Products</h3>
+            @foreach ($carts as $cart)
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-6">
@@ -17,9 +18,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <h5 class="card-title">Product Name</h5>
-                            <p class="card-text">$150</p>
-                            <p class="card-text">Quantity:2</p>
+                            <h5 class="card-title">{{ $cart->product->name }}</h5>
+                            <p class="card-text">{{ $cart->product->fee }}</p>
+                            <p class="card-text">{{ $cart->quantity }}</p>
                             <form action="3" method="post">
                                 @csrf
                                 @method('DELETE')
@@ -29,6 +30,8 @@
                     </div>
                 </div>
             </div>
+                
+            @endforeach
 
         </div>
         {{-- Total price --}}
