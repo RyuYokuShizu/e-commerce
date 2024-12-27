@@ -38,6 +38,13 @@ class ProductController extends Controller
     //商品の保存`---->>>
     public function store(StoreProductRequest $request){
         // StoreProductRequest already validated requests
+        // $request->calidated([
+        //     'name' => 'required|min:1|max:50',
+        //     'description'  => 'required|min:1',
+        //     'image' => 'required|mimes:jpeg,jpg,png,gif|max:1048',
+        //     'stock' => 'required',
+        //     'fee' => 'required'
+        // ]);
 
         $this->product->name  =  $request->name;
         $this->product->description = $request->description;
@@ -124,37 +131,5 @@ class ProductController extends Controller
         $this->cart->save();
 
         return redirect()->back();
-    }
-
-
-    public function addCart(Request $request, $id) {
-        $request->validate([
-            'amount' => 'required|min:1',
-        ]);
-
-        // カスタマーの注文個数
-        $requestedAmount = $request->amount;
-        // 商品名
-        $product = $this->findOrFail($id);
-
-        // sessionの中を見てcartをとってくる、なかったら空の配列
-        $cart = session()->get('cart', []);
-
-        if(isset($cart[$id])) {
-        // cartの中にとってきたidと同じものがすでにあったらそこに足し算する
-            $cart['quantity'] += $requestedAmount;
-        } else {
-        // cartの中に同じidが見つからなかったら、idをkeyにした配列を作成
-            $cart[$id] = [
-                'name'        => $product->name,
-                'description' => $product->description,
-                'image'       => $product->image,
-                'quantity'    => $requestedAmount,
-            ];
-        }
-        //sessionのcartという場所にcart(いろんなidの配列が格納されてる大きな配列の箱）がセットされる
-        session()->put('cart', $cart);
-
-        return redirect()->route('cart.page');
     }
 }
