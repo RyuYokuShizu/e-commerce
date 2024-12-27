@@ -38,13 +38,6 @@ class ProductController extends Controller
     //商品の保存`---->>>
     public function store(StoreProductRequest $request){
         // StoreProductRequest already validated requests
-        // $request->calidated([
-        //     'name' => 'required|min:1|max:50',
-        //     'description'  => 'required|min:1',
-        //     'image' => 'required|mimes:jpeg,jpg,png,gif|max:1048',
-        //     'stock' => 'required',
-        //     'fee' => 'required'
-        // ]);
 
         $this->product->name  =  $request->name;
         $this->product->description = $request->description;
@@ -130,15 +123,4 @@ class ProductController extends Controller
 
         return redirect()->back();
     }
-
-   
-
-
-
-
-    
-
-
-
-    
 }
