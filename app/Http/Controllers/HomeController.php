@@ -37,6 +37,17 @@ class HomeController extends Controller
         
         $user = Auth::user();
         $all_products = $this->product->all();
-        return view('home')->with('all_products',$all_products)->with('user', $user);
+        return view('home')
+        ->with('all_products',$all_products)
+        ->with('user', $user);
+    }
+
+    public function search(Request $request) {
+        $user = Auth::user();
+        $all_products = Product::where('name', 'like', '%' . $request->search_product . '%')->get();
+
+        return view('home')
+        ->with('all_products', $all_products)
+        ->with('user', $user);
     }
 }
