@@ -133,7 +133,7 @@ class ProductController extends Controller
 
     public function purchase($id){
         $product = $this->product->findOrFail($id);
-        return view('purchase')->with('product', $product);
+        return view('products.show')->with('product', $product);
     }
 
     public function buy(Request $request, $id){
