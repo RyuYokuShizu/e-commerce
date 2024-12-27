@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $this->user->name = 'kredo';
-        $this->user->email = 'kredo@gmail.coom';
+        $this->user->email = 'kredo@gmail.com';
         $this->user->password = Hash::make('kredo12345');
         $this->user->role = User::USER_ROLE;
         $this->user->save();

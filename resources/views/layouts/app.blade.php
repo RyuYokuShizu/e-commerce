@@ -33,8 +33,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
 
+                    <ul class="navbar-nav ms-auto">
+                       
+                    </ul>
+
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <div>
+                        <form action="{{ route('search')}}" style="width:300px">
+                            <div class="form-group d-flex justify-content-end align-items-center my-auto mt-1">
+                                <input type="search" name="search_product" id="search-product" class="form-control form-control-sm me-1" placeholder="Search...">
+                                <label for="search-product" class="w-50 text-secondary">search bar</label>
+                            </div>
+                        </form>
+                    </div>
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -49,7 +61,6 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
