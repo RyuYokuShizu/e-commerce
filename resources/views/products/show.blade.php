@@ -3,7 +3,13 @@
 @section('title', 'product detail')
 
 @section('content')
-    <div class="container w-75">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+  .show {
+      font-family: "Montserrat", serif;
+  }
+</style>
+    <div class="container w-75 show">
       <div class="pb-4">
         <nav class="navbar">
           <div class="container m-0">
@@ -31,19 +37,19 @@
         </nav>
         <div class="row">
           <div class="col-6">
-            <img src="{{asset('storage/public/image/'. $product->image)}}" class="d-flex card-img-top rounded-0 w-75 mx-auto" style="height:20rem; object-fit:cover;" alt="{{$product->name}}">
+            <img src="{{asset('storage/public/image/'. $product->image)}}" class="d-flex card-img-top rounded-0 w-75 mx-auto" style="height:20rem; object-fit:contain;" alt="{{$product->name}}">
           </div>
           <div class="col-6">
             <p class="text-secondary">Kredo Coffee</p>
-            <p class="fs-3 mb-4">{{ $product->name }}</p>
+            <p class="fs-3 mb-0">{{ $product->name }}</p>
             <p class="fs-3 mb-4">{{ $product->fee }} $</p>
-            <form action="#" method="post">
+            <form action="{{route('cart.buy',$product->id)}}" method="post">
               @csrf
               <div class="form-group d-flex align-items-center">
                 <label for="input-label">Quantity</label>
-                <input type="number" name="quantity" class="form-control w-50 ms-2" id="input-label">
+                <input type="number" name="amount" class="form-control w-50 ms-2" id="input-label">
               </div>
-              <button type="submit" class="btn btn-primary my-4 w-75 p-2">Add to Cart! Hurry!</button>
+              <button type="submit" class="btn btn-secondary my-4 w-75 p-2 rounded-0">Add to Cart! Hurry!</button>
             </form>
             <div class=""><a href="#" class="text-decoration-none text-danger"><i class="fa-regular fa-heart"></i></a></div>
           </div>

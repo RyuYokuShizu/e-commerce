@@ -7,10 +7,10 @@
     <h1 class="h3 py-2 p-0">Coffee Beans</h1>
     {{-- <img src="{{asset('storage/Colorful Cycle Chart Instagram Post.png')}}" alt="" style="width:60vh"> --}}
 
-    <div class="row justify-content-between">
+    <div class="row justify-content-left">
         @foreach($all_products as $product)
 
-        <div class="card col-2 rounded-0 p-0 mb-2 me-1  border-0">
+        <div class="card col-2 rounded-0 p-0 mb-2 me-4 border-0">
             <a href="{{ route('product.purchase', $product->id)}}">
                 <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:10rem; height:13rem; object-fit:contain;" alt="{{$product->name}}">
             </a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Carts;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
@@ -11,11 +12,32 @@ class CartController extends Controller
 {
     private $product;
     private $cart;
+    private $user;
 
-    public function __construct(Product $product, Carts $cart) {
+
+
+    public function __construct(Product $product, Carts $cart, User $user) {
         $this->product = $product;
         $this->cart = $cart;
+        $this->user = $user;
     }
+
+    public function create(){
+        $user = Auth::user();
+        $carts = $user->carts;
+
+        $final_total_price = 0;
+        foreach($carts as $cart){
+            $price = $cart->product->fee;
+            $quantity = $cart->quantity;
+            $total_price = $price*$quantity;
+
+            $final_total_price+=$total_price;
+        }
+
+        return view('products.cart')->with('carts', $carts)->with('final_total_price',$final_total_price);
+
+        }
 
 
 
@@ -36,6 +58,6 @@ class CartController extends Controller
         $this->cart->quantity = $request->amount;
         $this->cart->save();
 
-        return redirect()->back();
+        return redirect()->route('home');
     }
 }
