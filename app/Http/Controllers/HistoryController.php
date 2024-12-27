@@ -40,8 +40,5 @@ class HistoryController extends Controller
                 $cart->delete();
             }
         }
-
-
-        
     }
 }

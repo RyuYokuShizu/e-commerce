@@ -10,7 +10,7 @@
     <div class="row justify-content-between">
         @foreach($all_products as $product)
         <div class="card col-2 rounded-0 p-0 mb-2 border-0">
-            <a href="{{ route('product.purchase', $product->id)}}">
+            <a href="{{ route('product.purchase', $product->id)}}" class="mx-auto">
             <img src="{{asset('storage/public/image/'. $product->image)}}" class="card-img-top rounded-0" style="width:10rem; height:13rem; object-fit:cover;" alt="{{$product->name}}">
             </a>
             <div class="card-body py-2 px-1">
