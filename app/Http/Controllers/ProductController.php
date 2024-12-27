@@ -118,18 +118,25 @@ class ProductController extends Controller
         ]);
 
         $product=$this->product->findOrFail($id);
-        // 現在の在庫を取得
         $amount = $product->stock;
-        // 購入された分を引き算
         $new_amount = $amount - $request->amount;
 
-        $product->stock = $new_amount;
+        $product->stock =  $new_amount;
         $product->save();
 
-        $this->cart->user_id = Auth::user()->id;
+        $this->cart->user_id= Auth::user()->id;
         $this->cart->product_id = $id;
         $this->cart->save();
 
         return redirect()->back();
     }
+
+
+
+
+    
+
+
+
+    
 }
